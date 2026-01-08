@@ -2,20 +2,17 @@ FROM rasa/rasa:3.6.21-full
 
 WORKDIR /app
 
-# Copy code
-COPY . /app
+# Install dependencies
+RUN pip install --no-cache-dir rasa
 
-# Create models folder
+# Create models directory FIRST
 RUN mkdir -p /app/models
 
-# Download model from GitHub Release using curl (wget missing)
+# Download model
 RUN curl -L \
   https://github.com/Unknownerror-404/Aarogya_backend/releases/download/v1.00.00/20251116-212136-tender-chain.tar.gz \
   -o /app/models/model.tar.gz
 
-# Install requirements
-RUN pip install --no-cache-dir -r requirements.txt || true
-
 EXPOSE 5005
 
-CMD ["rasa", "run", "--enable-api", "--cors", "*", "--port", "5005", "--host", "0.0.0.0"]
+CMD ["rasa", "run", "--enable-api", "--model", "models/model.tar.gz", "--host", "0.0.0.0", "--port", "5005", "--cors", "*"]
