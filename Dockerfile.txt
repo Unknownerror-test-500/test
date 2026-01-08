@@ -10,8 +10,7 @@ RUN mkdir -p /app/models
 
 # Download model from GitHub Release using curl (wget missing)
 RUN curl -L \
-  https://github.com/Unknownerror-test-500/test/releases/download/Chatbot/20251116-212136-tender-chain.tar.gz \
-  -o /tmp/model.tar.gz
+  https://github.com/Unknownerror-test-500/test/releases/download/Chatbot/20251116-212136-tender-chain.tar.gz \ -o /tmp/model.tar.gz
 
 # Install requirements
 RUN pip install --no-cache-dir -r requirements.txt || true
