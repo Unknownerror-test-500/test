@@ -2,16 +2,21 @@ FROM rasa/rasa:3.6.21-full
 
 WORKDIR /app
 
-# Install dependencies
-RUN pip install --no-cache-dir rasa
+# Install curl + rasa
+RUN apt-get update && apt-get install -y curl \
+    && pip install --no-cache-dir rasa \
+    && rm -rf /var/lib/apt/lists/*
 
-# Create models directory FIRST
-RUN mkdir -p /app/models
+# Create models dir AND fix permissions
+RUN mkdir -p /app/models && chmod -R 777 /app
 
-# Download model
+# Download model to /tmp first (safe)
 RUN curl -L \
   https://github.com/Unknownerror-404/Aarogya_backend/releases/download/v1.00.00/20251116-212136-tender-chain.tar.gz \
-  -o /app/models/model.tar.gz
+  -o /tmp/model.tar.gz
+
+# Move model into app directory
+RUN mv /tmp/model.tar.gz /app/models/model.tar.gz
 
 EXPOSE 5005
 
