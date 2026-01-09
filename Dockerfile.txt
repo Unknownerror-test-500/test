@@ -19,4 +19,4 @@ RUN pip install --no-cache-dir -r requirements.txt || true
 
 EXPOSE 5005
 
-CMD ["run", "--enable-api", "--cors", "*", "--debug", "-p", "5005", "-i", "0.0.0.0"]
+CMD ["sh", "-c", "rasa run --enable-api --cors '*' --debug -p $PORT -i 0.0.0.0"]
